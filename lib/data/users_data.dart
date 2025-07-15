@@ -1,0 +1,86 @@
+import 'package:urps_ordein/models/users_models.dart';
+
+class UsersData {
+  final data = <UsersModels>[
+    UsersModels(
+      id: 0,
+      name: 'Juan Dela Cruz',
+      mobileNumber: '09171234567',
+      birthdate: DateTime(1990, 5, 15),
+      joined: DateTime(2023, 3, 1),
+      points: 1250,
+    ),
+    UsersModels(
+      id: 1,
+      name: 'Maria Santos',
+      mobileNumber: '09987654321',
+      birthdate: DateTime(1985, 8, 22),
+      joined: DateTime(2022, 11, 10),
+      points: 3400,
+    ),
+    UsersModels(
+      id: 2,
+      name: 'Pedro Pascual',
+      mobileNumber: '09081231234',
+      birthdate: DateTime(1992, 2, 5),
+      joined: DateTime(2024, 1, 25),
+      points: 780,
+    ),
+    UsersModels(
+      id: 3,
+      name: 'Ana Lopez',
+      mobileNumber: '09181234567',
+      birthdate: DateTime(1994, 7, 19),
+      joined: DateTime(2023, 6, 14),
+      points: 950,
+    ),
+    UsersModels(
+      id: 4,
+      name: 'Carlos Rivera',
+      mobileNumber: '09093456789',
+      birthdate: DateTime(1988, 3, 10),
+      joined: DateTime(2022, 9, 5),
+      points: 2100,
+    ),
+    UsersModels(
+      id: 5,
+      name: 'Emily Ramos',
+      mobileNumber: '09194561234',
+      birthdate: DateTime(1996, 12, 30),
+      joined: DateTime(2023, 12, 1),
+      points: 1740,
+    ),
+    UsersModels(
+      id: 6,
+      name: 'Luis Fernandez',
+      mobileNumber: '09179876543',
+      birthdate: DateTime(1987, 11, 11),
+      joined: DateTime(2021, 10, 20),
+      points: 2890,
+    ),
+    UsersModels(
+      id: 7,
+      name: 'Grace Mendoza',
+      mobileNumber: '09072345678',
+      birthdate: DateTime(1993, 6, 6),
+      joined: DateTime(2024, 2, 14),
+      points: 1200,
+    ),
+    UsersModels(
+      id: 8,
+      name: 'Marco Gutierrez',
+      mobileNumber: '09175678901',
+      birthdate: DateTime(1991, 4, 18),
+      joined: DateTime(2023, 8, 3),
+      points: 860,
+    ),
+    UsersModels(
+      id: 9,
+      name: 'Sofia Reyes',
+      mobileNumber: '09201234567',
+      birthdate: DateTime(1995, 10, 25),
+      joined: DateTime(2023, 5, 30),
+      points: 1350,
+    ),
+  ];
+}

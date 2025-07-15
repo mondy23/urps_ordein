@@ -1,0 +1,86 @@
+import 'package:urps_ordein/models/business_table_model.dart';
+
+class BusinessTableData {
+  final List<BusinessTableModel> data = [
+    BusinessTableModel(
+      businessName: 'Juan Corp.',
+      industry: 'Retail',
+      createdAt: DateTime(2024, 5, 20),
+      totalUsers: 1240,
+      pointsReleased: 50000,
+      pointsRedeemed: 32000,
+    ),
+    BusinessTableModel(
+      businessName: 'Bayanihan Inc.',
+      industry: 'Food & Beverage',
+      createdAt: DateTime(2024, 3, 12),
+      totalUsers: 850,
+      pointsReleased: 30000,
+      pointsRedeemed: 27500,
+    ),
+    BusinessTableModel(
+      businessName: 'Katipunan Tech',
+      industry: 'Technology',
+      createdAt: DateTime(2024, 6, 5),
+      totalUsers: 2210,
+      pointsReleased: 100000,
+      pointsRedeemed: 88000,
+    ),
+    BusinessTableModel(
+      businessName: 'Pinoy Prints',
+      industry: 'Printing',
+      createdAt: DateTime(2023, 11, 10),
+      totalUsers: 390,
+      pointsReleased: 10000,
+      pointsRedeemed: 7200,
+    ),
+    BusinessTableModel(
+      businessName: 'Luzviminda Logistics',
+      industry: 'Logistics',
+      createdAt: DateTime(2023, 9, 2),
+      totalUsers: 650,
+      pointsReleased: 24000,
+      pointsRedeemed: 19000,
+    ),
+    BusinessTableModel(
+      businessName: 'Isla Verde Market',
+      industry: 'Marketplace',
+      createdAt: DateTime(2024, 1, 19),
+      totalUsers: 1350,
+      pointsReleased: 45000,
+      pointsRedeemed: 34000,
+    ),
+    BusinessTableModel(
+      businessName: 'Tagalog Travel Co.',
+      industry: 'Tourism',
+      createdAt: DateTime(2023, 12, 5),
+      totalUsers: 980,
+      pointsReleased: 27000,
+      pointsRedeemed: 20000,
+    ),
+    BusinessTableModel(
+      businessName: 'Tindahan ni Aling Nena',
+      industry: 'Retail',
+      createdAt: DateTime(2024, 2, 7),
+      totalUsers: 300,
+      pointsReleased: 8000,
+      pointsRedeemed: 5100,
+    ),
+    BusinessTableModel(
+      businessName: 'Bughaw Systems',
+      industry: 'Software',
+      createdAt: DateTime(2024, 4, 1),
+      totalUsers: 410,
+      pointsReleased: 35000,
+      pointsRedeemed: 33000,
+    ),
+    BusinessTableModel(
+      businessName: 'Kape at Kaibigan',
+      industry: 'Café',
+      createdAt: DateTime(2023, 7, 25),
+      totalUsers: 260,
+      pointsReleased: 12000,
+      pointsRedeemed: 10000,
+    ),
+  ];
+}
