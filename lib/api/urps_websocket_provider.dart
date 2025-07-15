@@ -5,7 +5,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:urps_ordein/models/urps_websocket_model.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
 
-final webSocketUrl = 'wss://127.0.0.1:15001/ws?token=my-very-secret-key';
+final webSocketUrl = 'ws://127.0.0.1:15001/ws?token=my-very-secret-key';
 
 final systemSummaryProvider =
     StateNotifierProvider<SystemSummaryNotifier, SystemSummaryModels?>(

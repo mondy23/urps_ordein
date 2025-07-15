@@ -32,8 +32,8 @@ Widget systemSummary(SystemSummaryModels summary) {
   // Fill in the values from summary
   details.data[0].value = summary.totalBusinesses.toString();
   details.data[1].value = summary.totalUsers.toString();
-  details.data[2].value = summary.totalPointsIssued.toStringAsFixed(2);
-  details.data[3].value = summary.totalPointsRedeemed.toStringAsFixed(2);
+  details.data[2].value = summary.totalPointsIssued.toString();
+  details.data[3].value = summary.totalPointsRedeemed.toString();
   details.data[4].value = summary.totalActive.toString();
 
   return Container(

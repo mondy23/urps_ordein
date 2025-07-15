@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:urps_ordein/widgets/dashboard_recent_activity_widget.dart';
+import 'package:urps_ordein/pages/dashboard/widgets/dashboard_recent_activity_widget.dart';
 import 'package:urps_ordein/widgets/quick_links_widget.dart';
 import 'package:urps_ordein/pages/dashboard/widgets/system_summary_widget.dart';
 import 'package:urps_ordein/pages/dashboard/widgets/table_top_performing_business_widget.dart';

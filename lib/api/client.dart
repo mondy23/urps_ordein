@@ -9,7 +9,7 @@ class DioClient {
   DioClient._internal() {
     dio = Dio(
       BaseOptions(
-        baseUrl: 'https://127.0.0.1:15001/api/public/v1', // Replace this
+        baseUrl: 'http://127.0.0.1:15001/api/public/v1', // Replace this
         connectTimeout: const Duration(seconds: 10),
         receiveTimeout: const Duration(seconds: 10),
         headers: {

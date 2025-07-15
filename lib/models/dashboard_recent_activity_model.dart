@@ -10,4 +10,24 @@ class DashboardRecentActivityModel {
     required this.business,
     required this.time,
   });
+
+    factory DashboardRecentActivityModel.fromMap(Map<String, dynamic> map) {
+  return DashboardRecentActivityModel(
+    action: map['action_log'],
+    user: map['fullname'],
+    business: map['business'],
+    time: map['time'],
+  );
+}
+
+ factory DashboardRecentActivityModel.fromJson(Map<String, dynamic> json) {
+    final recentActivity = json['RecentActivity'] ?? {};
+
+    return DashboardRecentActivityModel(
+      action: recentActivity['action_log'],
+    user: recentActivity['fullname'],
+    business: recentActivity['business'],
+    time: recentActivity['time'],
+    );
+  }
 }

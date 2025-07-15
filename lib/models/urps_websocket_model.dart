@@ -1,12 +1,15 @@
+import 'package:urps_ordein/models/recent_activity.dart';
+
 class SystemSummaryModels {
   final int totalBusinesses;
   final int totalUsers;
-  final double totalPointsIssued;
-  final double totalPointsRedeemed;
+  final int totalPointsIssued;
+  final int totalPointsRedeemed;
   final int totalActive;
   final int newUsers;
   final int totalTransactionsToday;
   final int totalRedemptionsToday;
+  final List<ActivityModel> recentActivities;
 
   SystemSummaryModels({
     required this.totalBusinesses,
@@ -17,11 +20,13 @@ class SystemSummaryModels {
     required this.newUsers,
     required this.totalTransactionsToday,
     required this.totalRedemptionsToday,
+    required this.recentActivities,
   });
 
   factory SystemSummaryModels.fromJson(Map<String, dynamic> json) {
     final system = json['SystemSummary'] ?? {};
     final today = json['TodayStatus'] ?? {};
+    final recentAct = json['RecentActivity'] as List<dynamic>? ?? [];
 
     return SystemSummaryModels(
       totalBusinesses: system['total_businesses'] ?? 0,
@@ -32,6 +37,9 @@ class SystemSummaryModels {
       newUsers: today['new_users_today'] ?? 0,
       totalTransactionsToday: today['transactions_today'] ?? 0,
       totalRedemptionsToday: today['redemptions_today'] ?? 0,
+      recentActivities: recentAct
+          .map((e) => ActivityModel.fromJson(e as Map<String, dynamic>))
+          .toList(),
     );
   }
 
@@ -48,7 +56,8 @@ class SystemSummaryModels {
         'new_users_today': newUsers,
         'transactions_today': totalTransactionsToday,
         'redemptions_today': totalRedemptionsToday,
-      }
+      },
+      'RecentActivity': recentActivities.map((e) => e.toJson()).toList(),
     };
   }
 }
