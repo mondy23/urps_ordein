@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:urps_ordein/pages/specific_user.dart';
-import 'package:urps_ordein/pages/dashboard/dashboard.dart';
-import 'package:urps_ordein/pages/main_page.dart';
-import 'package:urps_ordein/pages/businesses/business.dart';
-import 'package:urps_ordein/pages/users.dart';
+import 'package:urps_ordein/features/users/specific_user.dart';
+import 'package:urps_ordein/features/dashboard/dashboard.dart';
+import 'package:urps_ordein/layout/main_page.dart';
+import 'package:urps_ordein/features/business/business.dart';
+import 'package:urps_ordein/features/users/users.dart';
 
 final routes = GoRouter(
   initialLocation: '/',
@@ -28,15 +28,45 @@ final routes = GoRouter(
               _buildFadeTransitionPage(const Business(), key: state.pageKey),
           routes: [
             GoRoute(
-              path: 'users', // -> /businesses/users
-              pageBuilder: (context, state) =>
-                  _buildFadeTransitionPage(const Users(), key: state.pageKey),
+              path: ':id/users',
+              pageBuilder: (context, state) {
+                final idParam = state.pathParameters['id'];
+                final id = int.tryParse(idParam ?? '');
+
+                if (id == null) {
+                  return _buildFadeTransitionPage(
+                    const Scaffold(
+                      body: Center(child: Text('Invalid business ID')),
+                    ),
+                    key: state.pageKey,
+                  );
+                }
+
+                return _buildFadeTransitionPage(
+                  Users(businessID: id),
+                  key: state.pageKey,
+                );
+              },
               routes: [
                 GoRoute(
-                  path: 'details', // -> /businesses/users/details
-                  pageBuilder: (context, state) =>
-                      _buildFadeTransitionPage(const SpecificUser(),
-                          key: state.pageKey),
+                  path: ':id/details',
+                  pageBuilder: (context, state) {
+                    final idParam = state.pathParameters['id'];
+                    final id = int.tryParse(idParam ?? '');
+                    if (id == null) {
+                      return _buildFadeTransitionPage(
+                        const Scaffold(
+                          body: Center(child: Text('Invalid business ID')),
+                        ),
+                        key: state.pageKey,
+                      );
+                    }
+
+                    return _buildFadeTransitionPage(
+                      SpecificUser(userID: id),
+                      key: state.pageKey,
+                    );
+                  },
                 ),
               ],
             ),
@@ -47,8 +77,6 @@ final routes = GoRouter(
   ],
 );
 
-
-// 🔄 Fade transition helper
 CustomTransitionPage _buildFadeTransitionPage(
   Widget child, {
   required LocalKey key,

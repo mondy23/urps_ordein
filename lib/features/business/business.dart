@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:urps_ordein/const/constant.dart';
-import 'package:urps_ordein/pages/businesses/widgets/page_business_table.dart';
-import 'package:urps_ordein/widgets/search_with_botton.dart';
+import 'package:urps_ordein/features/business/widget/create_business.dart';
+import 'package:urps_ordein/features/business/widget/page_business_table.dart';
 
 class Business extends StatelessWidget {
   const Business({super.key});
@@ -21,17 +21,17 @@ class Business extends StatelessWidget {
               child: SingleChildScrollView(
                 child: Column(
                   children: [
-                    const Padding(
-                      padding: EdgeInsets.symmetric(
-                        horizontal: 16,
-                        vertical: 18,
-                      ),
-                      child: SearchWithBotton(
-                        searchBgColor: backgroundColor,
-                        icon: Icons.add,
-                        btnName: 'Create Business',
-                      ),
+                    ElevatedButton(
+                      onPressed: () {
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (_) => const CreateBusinessPage(),
+                          ),
+                        );
+                      },
+                      child: const Text('Add Business'),
                     ),
+
                     Padding(
                       padding: const EdgeInsets.only(top: 16, left: 16),
                       child: Row(
@@ -50,9 +50,8 @@ class Business extends StatelessWidget {
                       ),
                     ),
                     const SizedBox(height: 16),
-                 
-                        BusinessDataTable(),
-                  
+
+                    BusinessDataTable(),
                   ],
                 ),
               ),

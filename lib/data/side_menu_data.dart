@@ -20,18 +20,18 @@ class SideMenuData {
           route: '/businesses',
           children: [],
         ),
-        MenuModel(
-          icon: Icons.group_outlined,
-          title: 'Users',
-          route: '/businesses/users',
-          children: [],
-        ),
-        MenuModel(
-          icon: Icons.person_outline,
-          title: 'Details',
-          route: '/businesses/users/details',
-          children: [],
-        ),
+        // MenuModel(
+        //   icon: Icons.group_outlined,
+        //   title: 'Users',
+        //   route: '/businesses/users',
+        //   children: [],
+        // ),
+        // MenuModel(
+        //   icon: Icons.person_outline,
+        //   title: 'Details',
+        //   route: '/businesses/users/details',
+        //   children: [],
+        // ),
       ],
     ),
   ];

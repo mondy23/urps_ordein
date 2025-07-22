@@ -7,7 +7,8 @@ import 'package:urps_ordein/data/user_information_data.dart';
 import 'package:urps_ordein/widgets/MyTable.dart';
 
 class SpecificUser extends StatelessWidget {
-  const SpecificUser({super.key});
+  final int userID;
+  const SpecificUser({super.key, required this.userID});
 
   @override
   Widget build(BuildContext context) {
