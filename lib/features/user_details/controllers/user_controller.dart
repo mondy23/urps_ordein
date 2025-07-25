@@ -11,6 +11,8 @@ final offsetProvider = StateProvider<int>((ref) => 5);
 
 
 final userServiceProvider = Provider((ref) => UserServices());
+final selectedTimeframeProvider = StateProvider<String>((ref) => 'Day');
+
 
 final userDetailsProvider = FutureProvider<UserDetailsResponseModel?>((ref) async {
   final service = ref.read(userServiceProvider);        
@@ -20,3 +22,4 @@ final userDetailsProvider = FutureProvider<UserDetailsResponseModel?>((ref) asyn
   final offset = ref.watch(offsetProvider);
   return service.getUserDetails(businessID, userID, limit, offset-1);    
 });
+

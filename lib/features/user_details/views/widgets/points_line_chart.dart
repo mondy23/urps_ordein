@@ -1,15 +1,18 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:urps_ordein/const/constant.dart';
 import 'package:urps_ordein/const/widgets/custom_container.dart';
+import 'package:urps_ordein/features/user_details/controllers/user_controller.dart';
 import 'package:urps_ordein/features/user_details/views/widgets/drop_down.dart';
 
-class PointsLineChart extends StatelessWidget {
+class PointsLineChart extends ConsumerWidget {
   const PointsLineChart({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    // final lineChart = ref.watch(lineChartProvider);
+    final selectedTimeframe = ref.watch(selectedTimeframeProvider);
     return CustomContainer(
       child: Stack(
         children: [
@@ -30,7 +33,7 @@ class PointsLineChart extends StatelessWidget {
                       ),
                     ),
                     Text(
-                      "6.5k",
+                      formatPoints(50097),
                       style: TextStyle(
                         fontSize: 32,
                         fontWeight: FontWeight.bold,
@@ -39,7 +42,16 @@ class PointsLineChart extends StatelessWidget {
                     ),
                   ],
                 ),
-                MyDropdown(),
+                MyDropdown(
+                  value: selectedTimeframe,
+                  onChanged: (String? newValue) {
+                    print(newValue);
+                    if (newValue != null) {
+                      ref.read(selectedTimeframeProvider.notifier).state =
+                          newValue;
+                    }
+                  },
+                ),
               ],
             ),
           ),
@@ -50,6 +62,22 @@ class PointsLineChart extends StatelessWidget {
               height: 330,
               child: LineChart(
                 LineChartData(
+                  lineTouchData: LineTouchData(
+                    touchTooltipData: LineTouchTooltipData(
+                      getTooltipColor: (touchedSpot) => backgroundColor,
+                      getTooltipItems: (touchedSpots) {
+                        return touchedSpots.map((LineBarSpot spot) {
+                          return LineTooltipItem(
+                            '${spot.y.toInt()} pts',
+                            TextStyle(
+                              color: primaryColor,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          );
+                        }).toList();
+                      },
+                    ),
+                  ),
                   borderData: FlBorderData(show: false),
                   gridData: FlGridData(show: false),
                   titlesData: FlTitlesData(
@@ -66,7 +94,7 @@ class PointsLineChart extends StatelessWidget {
                       sideTitles: SideTitles(
                         showTitles: true,
                         getTitlesWidget: (value, meta) =>
-                            getBottomTitles('day', value),
+                            getBottomTitles(selectedTimeframe, value),
                         reservedSize: 32,
                         interval: 1,
                       ),
@@ -79,33 +107,17 @@ class PointsLineChart extends StatelessWidget {
                       isCurved: true,
                       barWidth: 4,
                       color: primaryColor,
-                      spots: const [
-                        FlSpot(0, 10),
-                        FlSpot(1, 30),
-                        FlSpot(2, 18),
-                        FlSpot(3, 35),
-                        FlSpot(4, 12),
-                        FlSpot(5, 6),
-                        FlSpot(6, 14),
-                      ],
+                      spots: flspotForEarn(selectedTimeframe),
                     ),
                     // Past data line
-                    LineChartBarData(
-                      spots: [
-                        FlSpot(0, 8),
-                        FlSpot(1, 22),
-                        FlSpot(2, 12),
-                        FlSpot(3, 28),
-                        FlSpot(4, 9),
-                        FlSpot(5, 3),
-                        FlSpot(6, 10),
-                      ],
-                      isCurved: true,
-                      color: secondaryColor,
-                      barWidth: 4,
-                      dotData: FlDotData(show: false),
-                      dashArray: [5, 5], // Dashed line for past
-                    ),
+                    // LineChartBarData(
+                    //   spots: flspotForRedeem(data.timeframes, timeFrame),
+                    //   isCurved: true,
+                    //   color: secondaryColor,
+                    //   barWidth: 4,
+                    //   dotData: FlDotData(show: false),
+                    //   dashArray: [5, 5], // Dashed line for past
+                    // ),
                   ],
                 ),
               ),
@@ -119,7 +131,7 @@ class PointsLineChart extends StatelessWidget {
 
 Widget getBottomTitles(String data, double value) {
   switch (data) {
-    case 'day':
+    case 'Day':
       return Text(
         ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'][value.toInt() % 7],
         style: TextStyle(
@@ -128,9 +140,16 @@ Widget getBottomTitles(String data, double value) {
           color: const Color.fromARGB(202, 72, 83, 111),
         ),
       );
-    case 'week':
-      return Text('W${(value + 1).toInt()}');
-    case 'year':
+    case 'Week':
+      return Text(
+        'W${(value + 1).toInt()}',
+        style: TextStyle(
+          fontWeight: FontWeight.bold,
+          fontSize: 18,
+          color: const Color.fromARGB(202, 72, 83, 111),
+        ),
+      );
+    case 'Year':
       return Text(
         [
           'Jan',
@@ -146,8 +165,105 @@ Widget getBottomTitles(String data, double value) {
           'Nov',
           'Dec',
         ][value.toInt() % 12],
+        style: TextStyle(
+          fontWeight: FontWeight.bold,
+          fontSize: 16,
+          color: const Color.fromARGB(202, 72, 83, 111),
+        ),
       );
     default:
       return const Text('');
   }
 }
+
+String formatPoints(int points) {
+  if (points >= 1_000_000_000) {
+    return '${(points / 1_000_000_000).toStringAsFixed(1)}B';
+  } else if (points >= 1_000_000) {
+    return '${(points / 1_000_000).toStringAsFixed(1)}M';
+  } else if (points >= 1_000) {
+    return '${(points / 1_000).toStringAsFixed(1)}K';
+  } else {
+    return points.toString();
+  }
+}
+
+List<FlSpot> flspotForEarn(String timeFrame) {
+  switch (timeFrame) {
+    case 'Day':
+      return [
+        FlSpot(0, 10),
+        FlSpot(1, 30),
+        FlSpot(2, 18),
+        FlSpot(3, 35),
+        FlSpot(4, 12),
+        FlSpot(5, 6),
+        FlSpot(6, 14),
+      ];
+    case 'Week':
+      return [
+        FlSpot(0, 10),
+        FlSpot(1, 30),
+        FlSpot(2, 18),
+        FlSpot(3, 35),
+        FlSpot(4, 12),
+      ];
+    case 'Year':
+      return [
+        FlSpot(0, 10),
+        FlSpot(1, 30),
+        FlSpot(2, 18),
+        FlSpot(3, 35),
+        FlSpot(4, 12),
+        FlSpot(5, 6),
+        FlSpot(6, 14),
+        FlSpot(7, 20),
+        FlSpot(8, 22),
+        FlSpot(9, 26),
+        FlSpot(10, 15),
+        FlSpot(11, 18),
+      ];
+    default:
+      return [FlSpot(6, 14)];
+  }
+}
+
+// List<FlSpot> flspotForRedeem(Timeframes data, String timeFrame) {
+//   switch (timeFrame) {
+//     case 'day':
+//       return [
+//         FlSpot(0, 8),
+//         FlSpot(1, 22),
+//         FlSpot(2, 12),
+//         FlSpot(3, 28),
+//         FlSpot(4, 9),
+//         FlSpot(5, 3),
+//         FlSpot(6, 10),
+//       ];
+//     case 'week':
+//       return [
+//         FlSpot(0, 12),
+//         FlSpot(1, 20),
+//         FlSpot(2, 16),
+//         FlSpot(3, 24),
+//         FlSpot(4, 8),
+//       ];
+//     case 'year':
+//       return [
+//         FlSpot(0, 5),
+//         FlSpot(1, 12),
+//         FlSpot(2, 10),
+//         FlSpot(3, 18),
+//         FlSpot(4, 9),
+//         FlSpot(5, 4),
+//         FlSpot(6, 11),
+//         FlSpot(7, 17),
+//         FlSpot(8, 14),
+//         FlSpot(9, 19),
+//         FlSpot(10, 8),
+//         FlSpot(11, 13),
+//       ];
+//     default:
+//       return [FlSpot(6, 10)];
+//   }
+// }

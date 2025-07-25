@@ -11,7 +11,7 @@ class UserServices {
         'Content-Type': 'application/json',
         'Accept': 'application/json',
         'Authorization':
-            'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhZG1pbl9pZCI6MSwiZXhwIjoxNzUzMzQzNzMzLCJ1c2VybmFtZSI6ImFkbWluMDAxMSJ9.egxCBg-sIVDAhVccILoDnK59FlPFhica4_ZDGV4MtAo',
+            'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhZG1pbl9pZCI6MSwiZXhwIjoxNzUzNjY0ODE1LCJ1c2VybmFtZSI6ImFkbWluMDAxMSJ9.tuOs0v06HqxHU_IxzoTD2INvKqDwYQ7kz333015YNlo',
       },
     ),
   );
@@ -20,7 +20,7 @@ class UserServices {
     int businessID,
     String userID,
     int limit,
-    int offset
+    int offset,
   ) async {
     try {
       final response = await _dio.get(

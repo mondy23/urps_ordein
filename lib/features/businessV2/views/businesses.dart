@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:urps_ordein/const/constant.dart';
 import 'package:urps_ordein/features/business/model/business_model.dart';
 import 'package:urps_ordein/features/business/provider/business_provider.dart';
+import 'package:urps_ordein/features/business/widget/create_business.dart';
 import 'package:urps_ordein/features/businessV2/views/widgets/paginator.dart';
 import 'package:urps_ordein/features/user_details/controllers/user_controller.dart';
 
@@ -51,7 +52,13 @@ class Businesses extends ConsumerWidget {
                   Row(
                     children: [
                       ElevatedButton(
-                        onPressed: () {},
+                        onPressed: () {
+                           Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (_) => const CreateBusinessPage(),
+                          ),
+                        );
+                        },
                         style: ButtonStyle(
                           backgroundColor: WidgetStateProperty.all(
                             primaryColor,
@@ -143,7 +150,8 @@ class _BusinessCardState extends State<BusinessCard> {
         borderRadius: BorderRadius.circular(16),
         hoverColor: backgroundColor,
         onTap: () {
-            _showMyDialog(context, business.businessID!, ref);
+               ref.read(businessIDProvider.notifier).state = business.businessID!;
+                context.go('/businesses/${business.businessID!}/users');
         },
         child: Container(
           margin: isHovered ? EdgeInsets.all(8) : EdgeInsets.all(12),
@@ -217,29 +225,4 @@ class _BusinessCardState extends State<BusinessCard> {
       ),
     );
   }
-}
-
-void _showMyDialog(BuildContext context, int businessID, WidgetRef ref) {
-  showDialog(
-    context: context,
-    barrierDismissible: true, // tap outside to dismiss = false
-    builder: (BuildContext context) {
-      return AlertDialog(
-        backgroundColor: cardBackgroundColor,
-        content: Container(
-          height: 100,
-          child: Center(
-            child: ElevatedButton(
-              onPressed: () {
-                 ref.read(businessIDProvider.notifier).state = businessID;
-                context.go('/businesses/$businessID/users');
-                Navigator.of(context).pop();
-              },
-              child: Text('See More'),
-            ),
-          ),
-        ),
-      );
-    },
-  );
 }

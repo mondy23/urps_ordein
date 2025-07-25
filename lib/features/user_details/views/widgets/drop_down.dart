@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:urps_ordein/const/constant.dart';
 
-class MyDropdown extends StatefulWidget {
-  const MyDropdown({super.key});
+class MyDropdown extends StatelessWidget {
+  final String? value;
+  final void Function(String?) onChanged;
 
-  @override
-  _MyDropdownState createState() => _MyDropdownState();
-}
+  const MyDropdown({
+    super.key,
+    required this.value,
+    required this.onChanged,
+  });
 
-class _MyDropdownState extends State<MyDropdown> {
-  String? selectedWeek;
-
-  final List<String> weeks = ['Day', 'Week', 'Year'];
+  final List<String> weeks = const ['Day', 'Week', 'Year'];
 
   @override
   Widget build(BuildContext context) {
@@ -24,20 +24,17 @@ class _MyDropdownState extends State<MyDropdown> {
       ),
       child: DropdownButtonHideUnderline(
         child: DropdownButton<String>(
+          dropdownColor: backgroundColor,
           borderRadius: BorderRadius.circular(16),
           hint: const Text("Select a day"),
-          value: selectedWeek,
-          items: weeks.map((String week) {
+          value: value,
+          items: weeks.map((String state) {
             return DropdownMenuItem<String>(
-              value: week,
-              child: Text(week),
+              value: state,
+              child: Text(state, style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: textColor),),
             );
           }).toList(),
-          onChanged: (String? newValue) {
-            setState(() {
-              selectedWeek = newValue;
-            });
-          },
+          onChanged: onChanged,
         ),
       ),
     );
