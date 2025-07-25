@@ -10,7 +10,7 @@ class DioClient {
         'Content-Type': 'application/json',
         'Accept': 'application/json',
         'Authorization':
-            'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhZG1pbl9pZCI6MiwiZXhwIjoxNzUzMzI0NTE0LCJ1c2VybmFtZSI6ImFkbWluMDAxMSJ9.03UacMlBZQzw1DwIAUgZA69sH_lgTgGmqMvgI1HU06M',
+            'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhZG1pbl9pZCI6MSwiZXhwIjoxNzUzNTg0OTI5LCJ1c2VybmFtZSI6ImFkbWluMDAxMSJ9.aAvypT3DHItjHJ7yosghG9-UHa46ZjDcxWPH-v4sqEM',
       },
     ),
   );

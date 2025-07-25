@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:urps_ordein/features/users/specific_user.dart';
+import 'package:urps_ordein/features/businessV2/views/businesses.dart';
+// import 'package:urps_ordein/features/user_details/views/specific_user.dart';
 import 'package:urps_ordein/features/dashboard/dashboard.dart';
+import 'package:urps_ordein/features/user_details/views/user_details.dart';
 import 'package:urps_ordein/layout/main_page.dart';
-import 'package:urps_ordein/features/business/business.dart';
 import 'package:urps_ordein/features/users/users.dart';
 
 final routes = GoRouter(
@@ -25,12 +26,14 @@ final routes = GoRouter(
         GoRoute(
           path: '/businesses',
           pageBuilder: (context, state) =>
-              _buildFadeTransitionPage(const Business(), key: state.pageKey),
+              // _buildFadeTransitionPage(const Business(), key: state.pageKey),
+              _buildFadeTransitionPage(const Businesses(), key: state.pageKey),
+              
           routes: [
             GoRoute(
-              path: ':id/users',
+              path: ':business_id/users',
               pageBuilder: (context, state) {
-                final idParam = state.pathParameters['id'];
+                final idParam = state.pathParameters['business_id'];
                 final id = int.tryParse(idParam ?? '');
 
                 if (id == null) {
@@ -49,21 +52,31 @@ final routes = GoRouter(
               },
               routes: [
                 GoRoute(
-                  path: ':id/details',
+                  path: ':user_id/details',
                   pageBuilder: (context, state) {
-                    final idParam = state.pathParameters['id'];
-                    final id = int.tryParse(idParam ?? '');
-                    if (id == null) {
-                      return _buildFadeTransitionPage(
-                        const Scaffold(
-                          body: Center(child: Text('Invalid business ID')),
-                        ),
-                        key: state.pageKey,
-                      );
-                    }
+                    // final businessID = state.pathParameters['business_id'];
+                    // final userID = state.pathParameters['user_id'];
+                    // final businessidInt = int.tryParse(businessID ?? '');
+                    // if (businessidInt == null) {
+                    //   return _buildFadeTransitionPage(
+                    //     const Scaffold(
+                    //       body: Center(child: Text('Invalid business ID')),
+                    //     ),
+                    //     key: state.pageKey,
+                    //   );
+                    // }
+                    // if (userID == null) {
+                    //   return _buildFadeTransitionPage(
+                    //     const Scaffold(
+                    //       body: Center(child: Text('Invalid user ID')),
+                    //     ),
+                    //     key: state.pageKey,
+                    //   );
+                    // }
 
                     return _buildFadeTransitionPage(
-                      SpecificUser(userID: id),
+                      // SpecificUser(userID: id),
+                      UserDetails(),
                       key: state.pageKey,
                     );
                   },

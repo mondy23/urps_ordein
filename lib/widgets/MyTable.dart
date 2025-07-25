@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:urps_ordein/const/constant.dart';
-import 'package:urps_ordein/features/users/specific_user.dart';
+import 'package:urps_ordein/features/user_details/views/specific_user.dart';
 
 class Mytable extends StatelessWidget {
   final List <DataRow>rows;

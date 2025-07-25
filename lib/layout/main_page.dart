@@ -59,7 +59,7 @@ class _MainPageState extends State<MainPage> {
                     child: Padding(
                       padding: isMenuVisible
                           ? EdgeInsets.zero
-                          : const EdgeInsets.only(left: 150, right: 150, top: 24, bottom: 24),
+                          : const EdgeInsets.only(left: 100, right: 100, top: 24, bottom: 24),
                       child: widget.child,
                     ),
                   ),

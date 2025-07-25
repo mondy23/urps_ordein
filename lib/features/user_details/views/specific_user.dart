@@ -1,52 +1,64 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:urps_ordein/const/constant.dart';
-import 'package:urps_ordein/data/point_logs_data.dart';
-import 'package:urps_ordein/data/transactions_redemptions_data.dart';
-import 'package:urps_ordein/data/user_information_data.dart';
+import 'package:urps_ordein/features/user_details/controllers/user_controller.dart';
+import 'package:urps_ordein/features/user_details/models/info_model.dart';
+import 'package:urps_ordein/features/user_details/models/point_logs_model.dart';
+import 'package:urps_ordein/features/user_details/models/redemption_model.dart';
+import 'package:urps_ordein/features/user_details/models/transaction_model.dart';
 import 'package:urps_ordein/widgets/MyTable.dart';
 
-class SpecificUser extends StatelessWidget {
+class SpecificUser extends ConsumerWidget {
   final int userID;
   const SpecificUser({super.key, required this.userID});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final headerTextStyle = TextStyle(
       color: const Color.fromARGB(255, 147, 151, 161),
       fontSize: 16,
     );
-    final pointsDetails = PointLogsData();
-    final TransactionDetails = TransactionsData();
-    final RedemptionDetails = RedemptionsData();
-    return Row(
-      children: [
-        Expanded(
-          flex: 9,
-          child: Column(
-            children: [
-              userInformation(),
-              pointLogs(pointsDetails, headerTextStyle),
-            ],
-          ),
+    final userDetails = ref.watch(userDetailsProvider);
+    return userDetails.when(
+      data: (user) {
+        return Row(
+          children: [
+            Expanded(
+              flex: 9,
+              child: Column(
+                children: [
+                  userInformation(user!.userInfo),
+                  pointLogs(user.pointLogs, headerTextStyle),
+                ],
+              ),
+            ),
+            Expanded(
+              flex: 6,
+              child: Column(
+                children: [
+                  // rewardAccountSummary(),
+                  transaction(user.transaction, headerTextStyle),
+                  redemption(user.redemption, headerTextStyle),
+                ],
+              ),
+            ),
+          ],
+        );
+      },
+      error: (e, _) => Center(
+        child: Text(
+          'Something went wrong.\n$e',
+          textAlign: TextAlign.center,
+          style: const TextStyle(color: Colors.red),
         ),
-        Expanded(
-          flex: 6,
-          child: Column(
-            children: [
-              // rewardAccountSummary(),
-              transaction(TransactionDetails, headerTextStyle),
-              redemption(RedemptionDetails, headerTextStyle),
-            ],
-          ),
-        ),
-      ],
+      ),
+      loading: () => const Center(child: CircularProgressIndicator()),
     );
   }
 }
 
-Widget userInformation() {
-  final details = UserInformationData();
+Widget userInformation(InfoModel details) {
   return Expanded(
     child: Container(
       decoration: BoxDecoration(
@@ -56,13 +68,10 @@ Widget userInformation() {
       child: Column(
         children: [
           cardHeader('User Information', Icons.person_outline),
-          Text(details.data.id.toString()),
-          Text(details.data.name),
-          Text(details.data.mobileNumber),
-           Text(DateFormat().format(details.data.birthdate)),
-          Text(details.data.linkedBusiness),
-          Text(DateFormat().format(details.data.joined)),
-          Text(details.data.points.toString()),
+          Text(details.userID),
+          Text(details.businessID.toString()),
+          Text(DateFormat().format(details.createdAt)),
+          Text(details.totalPoints.toString()),
         ],
       ),
     ),
@@ -83,7 +92,7 @@ Widget rewardAccountSummary() {
   );
 }
 
-Widget transaction(TransactionsData details, TextStyle headerStyle) {
+Widget transaction(TransactionResponse details, TextStyle headerStyle) {
   return Expanded(
     child: Container(
       decoration: BoxDecoration(
@@ -91,11 +100,11 @@ Widget transaction(TransactionsData details, TextStyle headerStyle) {
         border: Border.all(color: borderColor),
       ),
       child: Mytable(
-        rows: details.data.map((t) {
+        rows: details.transactions.map((t) {
           return DataRow(
             cells: [
-              DataCell(Text(DateFormat().format(t.dateAndTime))),
-              DataCell(Text(t.description)),
+              DataCell(Text(DateFormat().format(t.transactionTime))),
+              DataCell(Text('jkhgb')),
               DataCell(
                 Container(
                   height: 25,
@@ -106,7 +115,7 @@ Widget transaction(TransactionsData details, TextStyle headerStyle) {
                   ),
                   child: Center(
                     child: Text(
-                      '+${t.earn.toString()}',
+                      '+${t.pointsEarned.toString()}',
                       style: TextStyle(color: Colors.green),
                     ),
                   ),
@@ -127,7 +136,7 @@ Widget transaction(TransactionsData details, TextStyle headerStyle) {
   );
 }
 
-Widget redemption(RedemptionsData details, TextStyle headerStyle) {
+Widget redemption(RedemptionResponse details, TextStyle headerStyle) {
   return Expanded(
     child: Container(
       decoration: BoxDecoration(
@@ -135,11 +144,11 @@ Widget redemption(RedemptionsData details, TextStyle headerStyle) {
         border: Border.all(color: borderColor),
       ),
       child: Mytable(
-        rows: details.data.map((r) {
+        rows: details.redemptions.map((r) {
           return DataRow(
             cells: [
-              DataCell(Text(DateFormat().format(r.dateAndTime))),
-              DataCell(Text(r.description)),
+              DataCell(Text(DateFormat().format(r.redemptionTime))),
+              DataCell(Text('dasdas')),
               DataCell(
                 Container(
                   height: 25,
@@ -150,7 +159,7 @@ Widget redemption(RedemptionsData details, TextStyle headerStyle) {
                   ),
                   child: Center(
                     child: Text(
-                      '-${r.redeemed.toString()}',
+                      '-${r.reward.toString()}',
                       style: TextStyle(color: Colors.red),
                     ),
                   ),
@@ -171,7 +180,7 @@ Widget redemption(RedemptionsData details, TextStyle headerStyle) {
   );
 }
 
-Widget pointLogs(PointLogsData details, TextStyle headerStyle) {
+Widget pointLogs(PointLogsResponse details, TextStyle headerStyle) {
   return Expanded(
     child: Container(
       decoration: BoxDecoration(
@@ -190,14 +199,14 @@ Widget pointLogs(PointLogsData details, TextStyle headerStyle) {
                 DataColumn(label: Text('Ref ID', style: headerStyle)),
                 DataColumn(label: Text('Time', style: headerStyle)),
               ],
-              rows: details.data.map((p) {
+              rows: details.pointLogs.map((p) {
                 return DataRow(
                   cells: [
                     DataCell(Text(p.type)),
                     DataCell(Text(p.points.toString())),
-                    DataCell(Text(p.description)),
-                    DataCell(Text(p.refID)),
-                    DataCell(Text(DateFormat('MMM d, yyyy').format(p.time))),
+                    DataCell(Text('aasda')),
+                    DataCell(Text(p.pointLogID.toString())),
+                    DataCell(Text(DateFormat('MMM d, yyyy').format(p.timestamp))),
                   ],
                 );
               }).toList(),

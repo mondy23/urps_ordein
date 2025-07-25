@@ -6,6 +6,7 @@ import 'package:intl/intl.dart';
 import 'package:urps_ordein/const/constant.dart';
 import 'package:urps_ordein/const/widgets/paginator_controller.dart';
 import 'package:urps_ordein/features/business/provider/business_provider.dart';
+import 'package:urps_ordein/features/user_details/controllers/user_controller.dart';
 
 class BusinessDataTable extends ConsumerWidget {
   const BusinessDataTable({super.key});
@@ -20,7 +21,10 @@ class BusinessDataTable extends ConsumerWidget {
     final screenHeight = MediaQuery.of(context).size.height;
     final availableHeight = screenHeight - kToolbarHeight - 190;
     const rowHeight = 56.0;
-    final rowCount = (availableHeight / rowHeight).floor().clamp(minRowCount, 999);
+    final rowCount = (availableHeight / rowHeight).floor().clamp(
+      minRowCount,
+      999,
+    );
 
     // ✅ Post-frame callback to update row count and validate current page
     WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -64,7 +68,13 @@ class BusinessDataTable extends ConsumerWidget {
                           ),
                         ),
                         DataCell(Text(b.industry ?? '')),
-                        DataCell(Text(DateFormat('MMM d, yyyy').format(b.createdAt ?? DateTime.now()))),
+                        DataCell(
+                          Text(
+                            DateFormat(
+                              'MMM d, yyyy',
+                            ).format(b.createdAt ?? DateTime.now()),
+                          ),
+                        ),
                         DataCell(Text('${b.totalUsers}')),
                         DataCell(Text('${b.pointsReleased}')),
                         DataCell(Text('${b.pointsRedeemed}')),
@@ -73,8 +83,16 @@ class BusinessDataTable extends ConsumerWidget {
                             children: [
                               IconButton(
                                 tooltip: "User's",
-                                icon: Icon(Icons.person_outline, color: secondaryColor),
-                                onPressed: () => context.go('/businesses/${b.businessID}/users'),
+                                icon: Icon(
+                                  Icons.person_outline,
+                                  color: secondaryColor,
+                                ),
+                                onPressed: () {
+                                  ref.read(businessIDProvider.notifier).state = b.businessID!;
+                                  context.go(
+                                    '/businesses/${b.businessID}/users',
+                                  );
+                                },
                               ),
                               IconButton(
                                 tooltip: 'Edit',

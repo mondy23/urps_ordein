@@ -5,6 +5,7 @@ import 'package:intl/intl.dart';
 
 import 'package:urps_ordein/const/constant.dart';
 import 'package:urps_ordein/data/user_cards_data.dart';
+import 'package:urps_ordein/features/user_details/controllers/user_controller.dart';
 import 'package:urps_ordein/features/users/model/user_model.dart';
 import 'package:urps_ordein/features/users/provider/users_provider.dart';
 
@@ -147,6 +148,7 @@ class _UsersState extends ConsumerState<Users> {
                           DataCell(
                             IconButton(
                               onPressed: () {
+                                ref.read(userIDProvider.notifier).state = user.accountIdentifier;
                                 context.go('/businesses/${widget.businessID}/users/${user.accountIdentifier}/details');
                               },
                               icon: const Icon(Icons.person_outline, color: secondaryColor),
