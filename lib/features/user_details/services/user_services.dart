@@ -1,5 +1,7 @@
 import 'package:dio/dio.dart';
+import 'package:urps_ordein/features/user_details/models/points_line_chart.dart';
 import 'package:urps_ordein/features/user_details/models/response_model.dart';
+import 'package:urps_ordein/features/user_details/views/widgets/points_line_chart.dart';
 
 class UserServices {
   final Dio _dio = Dio(
@@ -37,6 +39,28 @@ class UserServices {
       return UserDetailsResponseModel.fromJson(data);
     } on DioException catch (e) {
       // Log or handle specific Dio errors
+      print('Dio error: ${e.response?.statusCode} - ${e.message}');
+      return null;
+    } catch (e) {
+      print('Unexpected error: $e');
+      return null;
+    }
+  }
+
+  Future<PointsLineChartResponse?> getPointsLineChart(
+    int businessID,
+    String userID,
+  ) async {
+    try {
+      final response = await _dio.get(
+        '/api/private/v1/businesses/user/timeframes',
+        queryParameters: {'business_id': businessID, 'user_id': userID},
+      );
+
+      final data = response.data as Map<String, dynamic>;
+      return PointsLineChartResponse.fromJson(data);
+    } on DioException catch (e) {
+      // Handle Dio-specific errors
       print('Dio error: ${e.response?.statusCode} - ${e.message}');
       return null;
     } catch (e) {

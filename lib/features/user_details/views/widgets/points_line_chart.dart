@@ -4,6 +4,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:urps_ordein/const/constant.dart';
 import 'package:urps_ordein/const/widgets/custom_container.dart';
 import 'package:urps_ordein/features/user_details/controllers/user_controller.dart';
+import 'package:urps_ordein/features/user_details/models/points_line_chart.dart';
 import 'package:urps_ordein/features/user_details/views/widgets/drop_down.dart';
 
 class PointsLineChart extends ConsumerWidget {
@@ -11,120 +12,127 @@ class PointsLineChart extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    // final lineChart = ref.watch(lineChartProvider);
+    final lineChart = ref.watch(pointsLineChartProvider);
     final selectedTimeframe = ref.watch(selectedTimeframeProvider);
-    return CustomContainer(
-      child: Stack(
-        children: [
-          Container(
-            padding: EdgeInsets.all(48),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Column(
+    return lineChart.when(
+      data: (data) {
+        return CustomContainer(
+          child: Stack(
+            children: [
+              Container(
+                padding: EdgeInsets.all(48),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
-                      "Total Point's",
-                      style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                        color: textColor,
-                      ),
+                    Column(
+                      children: [
+                        Text(
+                          "Total Point's",
+                          style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                            color: textColor,
+                          ),
+                        ),
+                        Text(
+                          formatPoints(data!.totalPoints),
+                          style: TextStyle(
+                            fontSize: 32,
+                            fontWeight: FontWeight.bold,
+                            color: primaryColor,
+                          ),
+                        ),
+                      ],
                     ),
-                    Text(
-                      formatPoints(50097),
-                      style: TextStyle(
-                        fontSize: 32,
-                        fontWeight: FontWeight.bold,
-                        color: primaryColor,
-                      ),
-                    ),
-                  ],
-                ),
-                MyDropdown(
-                  value: selectedTimeframe,
-                  onChanged: (String? newValue) {
-                    print(newValue);
-                    if (newValue != null) {
-                      ref.read(selectedTimeframeProvider.notifier).state =
-                          newValue;
-                    }
-                  },
-                ),
-              ],
-            ),
-          ),
-          Align(
-            alignment: Alignment.bottomLeft,
-            child: Container(
-              padding: EdgeInsets.symmetric(horizontal: 48),
-              height: 330,
-              child: LineChart(
-                LineChartData(
-                  lineTouchData: LineTouchData(
-                    touchTooltipData: LineTouchTooltipData(
-                      getTooltipColor: (touchedSpot) => backgroundColor,
-                      getTooltipItems: (touchedSpots) {
-                        return touchedSpots.map((LineBarSpot spot) {
-                          return LineTooltipItem(
-                            '${spot.y.toInt()} pts',
-                            TextStyle(
-                              color: primaryColor,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          );
-                        }).toList();
+                    MyDropdown(
+                      value: selectedTimeframe,
+                      onChanged: (String? newValue) {
+                        print(newValue);
+                        if (newValue != null) {
+                          ref.read(selectedTimeframeProvider.notifier).state =
+                              newValue;
+                        }
                       },
                     ),
-                  ),
-                  borderData: FlBorderData(show: false),
-                  gridData: FlGridData(show: false),
-                  titlesData: FlTitlesData(
-                    topTitles: AxisTitles(
-                      sideTitles: SideTitles(showTitles: false),
-                    ),
-                    rightTitles: AxisTitles(
-                      sideTitles: SideTitles(showTitles: false),
-                    ),
-                    leftTitles: AxisTitles(
-                      sideTitles: SideTitles(showTitles: false),
-                    ),
-                    bottomTitles: AxisTitles(
-                      sideTitles: SideTitles(
-                        showTitles: true,
-                        getTitlesWidget: (value, meta) =>
-                            getBottomTitles(selectedTimeframe, value),
-                        reservedSize: 32,
-                        interval: 1,
-                      ),
-                    ),
-                  ),
-                  // Present data line
-                  lineBarsData: [
-                    LineChartBarData(
-                      preventCurveOverShooting: true,
-                      isCurved: true,
-                      barWidth: 4,
-                      color: primaryColor,
-                      spots: flspotForEarn(selectedTimeframe),
-                    ),
-                    // Past data line
-                    // LineChartBarData(
-                    //   spots: flspotForRedeem(data.timeframes, timeFrame),
-                    //   isCurved: true,
-                    //   color: secondaryColor,
-                    //   barWidth: 4,
-                    //   dotData: FlDotData(show: false),
-                    //   dashArray: [5, 5], // Dashed line for past
-                    // ),
                   ],
                 ),
               ),
-            ),
+              Align(
+                alignment: Alignment.bottomLeft,
+                child: Container(
+                  padding: EdgeInsets.symmetric(horizontal: 48),
+                  height: 330,
+                  child: LineChart(
+                    LineChartData(
+                      lineTouchData: LineTouchData(
+                        touchTooltipData: LineTouchTooltipData(
+                          getTooltipColor: (touchedSpot) => backgroundColor,
+                          getTooltipItems: (touchedSpots) {
+                            return touchedSpots.map((LineBarSpot spot) {
+                              bool isEarned = spot.y.toInt() > 0;
+                              return LineTooltipItem(
+                                '${formatPoints(spot.y.toInt())} pts',
+                                TextStyle(
+                                  color: isEarned ? primaryColor : textColor,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              );
+                            }).toList();
+                          },
+                        ),
+                      ),
+                      borderData: FlBorderData(show: false),
+                      gridData: FlGridData(show: false),
+                      titlesData: FlTitlesData(
+                        topTitles: AxisTitles(
+                          sideTitles: SideTitles(showTitles: false),
+                        ),
+                        rightTitles: AxisTitles(
+                          sideTitles: SideTitles(showTitles: false),
+                        ),
+                        leftTitles: AxisTitles(
+                          sideTitles: SideTitles(showTitles: false),
+                        ),
+                        bottomTitles: AxisTitles(
+                          sideTitles: SideTitles(
+                            showTitles: true,
+                            getTitlesWidget: (value, meta) =>
+                                getBottomTitles(selectedTimeframe, value),
+                            reservedSize: 32,
+                            interval: 1,
+                          ),
+                        ),
+                      ),
+                      // Present data line
+                      lineBarsData: [
+                        LineChartBarData(
+                          preventCurveOverShooting: true,
+                          isCurved: true,
+                          barWidth: 4,
+                          color: primaryColor,
+                          spots: flspotForEarn(data.timeframes ,selectedTimeframe),
+                        ),
+                        // Past data line
+                        // LineChartBarData(
+                        //   spots: flspotForRedeem(data.timeframes, timeFrame),
+                        //   isCurved: true,
+                        //   color: secondaryColor,
+                        //   barWidth: 4,
+                        //   dotData: FlDotData(show: false),
+                        //   dashArray: [5, 5], // Dashed line for past
+                        // ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            ],
           ),
-        ],
-      ),
+        );
+      },
+      error: (error, stack) => Center(child: Text('No data found')),
+      loading: () => const Center(child: CircularProgressIndicator()),
     );
   }
 }
@@ -188,45 +196,25 @@ String formatPoints(int points) {
   }
 }
 
-List<FlSpot> flspotForEarn(String timeFrame) {
+List<FlSpot> flspotForEarn(Timeframes data, String timeFrame) {
   switch (timeFrame) {
     case 'Day':
-      return [
-        FlSpot(0, 10),
-        FlSpot(1, 30),
-        FlSpot(2, 18),
-        FlSpot(3, 35),
-        FlSpot(4, 12),
-        FlSpot(5, 6),
-        FlSpot(6, 14),
-      ];
+      return data.day
+          .map((e) => FlSpot(e.day.toDouble(), e.points.toDouble()))
+          .toList();
     case 'Week':
-      return [
-        FlSpot(0, 10),
-        FlSpot(1, 30),
-        FlSpot(2, 18),
-        FlSpot(3, 35),
-        FlSpot(4, 12),
-      ];
+      return data.week
+          .map((e) => FlSpot((e.week - 1).toDouble(), e.points.toDouble()))
+          .toList();
     case 'Year':
-      return [
-        FlSpot(0, 10),
-        FlSpot(1, 30),
-        FlSpot(2, 18),
-        FlSpot(3, 35),
-        FlSpot(4, 12),
-        FlSpot(5, 6),
-        FlSpot(6, 14),
-        FlSpot(7, 20),
-        FlSpot(8, 22),
-        FlSpot(9, 26),
-        FlSpot(10, 15),
-        FlSpot(11, 18),
-      ];
+      return data.year
+          .map((e) => FlSpot((e.month - 1).toDouble(), e.points.toDouble()))
+          .toList();
     default:
-      return [FlSpot(6, 14)];
+      return [];
   }
 }
+
 
 // List<FlSpot> flspotForRedeem(Timeframes data, String timeFrame) {
 //   switch (timeFrame) {

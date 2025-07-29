@@ -1,4 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:urps_ordein/features/user_details/models/points_line_chart.dart';
 import 'package:urps_ordein/features/user_details/models/response_model.dart';
 import 'package:urps_ordein/features/user_details/services/user_services.dart';
 
@@ -21,5 +22,12 @@ final userDetailsProvider = FutureProvider<UserDetailsResponseModel?>((ref) asyn
   final limit = ref.watch(limitProvider); 
   final offset = ref.watch(offsetProvider);
   return service.getUserDetails(businessID, userID, limit, offset-1);    
+});
+
+final pointsLineChartProvider = FutureProvider<PointsLineChartResponse?>((ref) async {
+  final service = ref.read(userServiceProvider);        
+  final userID = ref.watch(userIDProvider);             
+  final businessID = ref.watch(businessIDProvider);    
+  return service.getPointsLineChart(businessID, userID);    
 });
 
