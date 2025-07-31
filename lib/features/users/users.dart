@@ -148,7 +148,6 @@ class _UsersState extends ConsumerState<Users> {
                           DataCell(
                             IconButton(
                               onPressed: () {
-                                ref.read(userIDProvider.notifier).state = user.accountIdentifier;
                                 context.go('/businesses/${widget.businessID}/users/${user.accountIdentifier}/details');
                               },
                               icon: const Icon(Icons.person_outline, color: secondaryColor),

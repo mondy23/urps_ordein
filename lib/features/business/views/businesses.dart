@@ -2,11 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:urps_ordein/const/constant.dart';
-import 'package:urps_ordein/features/business/model/business_model.dart';
-import 'package:urps_ordein/features/business/provider/business_provider.dart';
-import 'package:urps_ordein/features/business/widget/create_business.dart';
-import 'package:urps_ordein/features/businessV2/views/widgets/paginator.dart';
-import 'package:urps_ordein/features/user_details/controllers/user_controller.dart';
+import 'package:urps_ordein/features/business/controllers/business_provider.dart';
+import 'package:urps_ordein/features/business/models/business_model.dart';
+import 'package:urps_ordein/features/business/views/widgets/create_business.dart';
+import 'package:urps_ordein/features/business/views/widgets/paginator.dart';
 
 class Businesses extends ConsumerWidget {
   const Businesses({super.key});
@@ -111,7 +110,7 @@ class Businesses extends ConsumerWidget {
                 ),
                 itemBuilder: (context, index) {
                   BusinessModel data = business[index];
-                  return BusinessCard(data: data, ref: ref,);
+                  return BusinessCard(data: data);
                 },
               ),
             ),
@@ -128,21 +127,20 @@ class Businesses extends ConsumerWidget {
   }
 }
 
-class BusinessCard extends StatefulWidget {
+class BusinessCard extends ConsumerStatefulWidget {
   final BusinessModel data;
-  final WidgetRef ref;
-  const BusinessCard({super.key, required this.data, required this.ref});
+  const BusinessCard({super.key, required this.data});
 
   @override
-  State<BusinessCard> createState() => _BusinessCardState();
+  ConsumerState<BusinessCard> createState() => _BusinessCardState();
 }
 
-class _BusinessCardState extends State<BusinessCard> {
+class _BusinessCardState extends ConsumerState<BusinessCard> {
   bool isHovered = false;
   @override
   Widget build(BuildContext context) {
     final business = widget.data;
-    final ref = widget.ref;
+      
     return MouseRegion(
       onEnter: (_) => setState(() => isHovered = true),
       onExit: (_) => setState(() => isHovered = false),
@@ -150,7 +148,6 @@ class _BusinessCardState extends State<BusinessCard> {
         borderRadius: BorderRadius.circular(16),
         hoverColor: backgroundColor,
         onTap: () {
-               ref.read(businessIDProvider.notifier).state = business.businessID!;
                 context.go('/businesses/${business.businessID!}/users');
         },
         child: Container(

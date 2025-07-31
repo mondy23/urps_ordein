@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:urps_ordein/const/constant.dart';
-import 'package:urps_ordein/features/user_details/views/specific_user.dart';
 
 class Mytable extends StatelessWidget {
   final List <DataRow>rows;
@@ -33,4 +32,27 @@ class Mytable extends StatelessWidget {
       ),
     );
   }
+}
+
+Widget cardHeader(String name, IconData icon) {
+  return Row(
+    crossAxisAlignment: CrossAxisAlignment.start,
+    children: [
+      Padding(
+        padding: const EdgeInsets.only(top: 16, left: 16),
+        child: Icon(icon, size: 32, color: textColor),
+      ),
+      Padding(
+        padding: const EdgeInsets.only(left: 16, top: 24),
+        child: Text(
+          name,
+          style: TextStyle(
+            color: textColor,
+            fontSize: 16,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+      ),
+    ],
+  );
 }

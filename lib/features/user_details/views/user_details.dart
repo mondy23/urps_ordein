@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:urps_ordein/const/widgets/custom_container.dart';
 import 'package:urps_ordein/features/user_details/controllers/user_controller.dart';
 import 'package:urps_ordein/features/user_details/views/widgets/circle_percent.dart';
 import 'package:urps_ordein/features/user_details/views/widgets/info_card.dart';
@@ -9,16 +8,18 @@ import 'package:urps_ordein/features/user_details/views/widgets/redemption.dart'
 import 'package:urps_ordein/features/user_details/views/widgets/transaction.dart';
 
 class UserDetails extends ConsumerWidget {
-
+  final String userID;
+  final int businessID;
   const UserDetails({
     super.key,
+    required this.userID,
+    required this.businessID
   });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final user = ref.watch(userDetailsProvider);
-    final currentPage = ref.watch(offsetProvider);
-    // final limit = ref.watch(limitProvider);
+     final user = ref.watch(userDetailsProvider((businessID, userID)));
+    
     return user.when(
       data: (u) {
         return Column(
@@ -27,12 +28,12 @@ class UserDetails extends ConsumerWidget {
               flex: 9,
               child: Row(
                 children: [
-                  Expanded(flex: 2, child: PointsLineChart()),
+                  Expanded(flex: 2, child: PointsLineChart(userID: userID, businessID: businessID,)),
                   Expanded(
                     child: Column(
                       children: [
                         Expanded(flex: 3, child: CirclePercent()),
-                        Expanded(child: InfoCard()),
+                        Expanded(child: InfoCard(userID: userID, businessID: businessID,)),
                       ],
                     ),
                   ),

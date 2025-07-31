@@ -1,11 +1,12 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:urps_ordein/features/business/api.dart';
-import 'package:urps_ordein/features/business/model/business_model.dart';
+import 'package:urps_ordein/features/business/models/business_model.dart';
+import 'package:urps_ordein/features/business/services/business_controller.dart';
 
 // UI State
 final pageSelectedProvider = StateProvider<int>((ref) => 1);
 final rowCountProvider = StateProvider<int>((ref) => 10);
 final totalBusinessCountProvider = StateProvider<int>((ref) => 0);
+
 
 // API Providers
 

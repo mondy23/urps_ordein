@@ -6,17 +6,27 @@ import 'package:urps_ordein/const/widgets/custom_container.dart';
 import 'package:urps_ordein/features/user_details/controllers/user_controller.dart';
 import 'package:urps_ordein/features/user_details/models/points_line_chart.dart';
 import 'package:urps_ordein/features/user_details/views/widgets/drop_down.dart';
+import 'package:urps_ordein/widgets/error_no_data.dart';
 
 class PointsLineChart extends ConsumerWidget {
-  const PointsLineChart({super.key});
+  final String userID;
+  final int businessID;
+  const PointsLineChart({
+    super.key,
+    required this.userID,
+    required this.businessID,
+  });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final lineChart = ref.watch(pointsLineChartProvider);
+    final lineChart = ref.watch(pointsLineChartProvider((businessID, userID)));
     final selectedTimeframe = ref.watch(selectedTimeframeProvider);
     return lineChart.when(
       data: (data) {
-            WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (data == null) {
+          return ErrorNoData();
+        }
+        WidgetsBinding.instance.addPostFrameCallback((_) {
           ref.read(totalPointsProvider.notifier).state = data?.totalPoints ?? 0;
         });
         return CustomContainer(
@@ -114,17 +124,11 @@ class PointsLineChart extends ConsumerWidget {
                           isCurved: true,
                           barWidth: 4,
                           color: primaryColor,
-                          spots: flspotForEarn(data.timeframes ,selectedTimeframe),
+                          spots: flspotForEarn(
+                            data.timeframes,
+                            selectedTimeframe,
+                          ),
                         ),
-                        // Past data line
-                        // LineChartBarData(
-                        //   spots: flspotForRedeem(data.timeframes, timeFrame),
-                        //   isCurved: true,
-                        //   color: secondaryColor,
-                        //   barWidth: 4,
-                        //   dotData: FlDotData(show: false),
-                        //   dashArray: [5, 5], // Dashed line for past
-                        // ),
                       ],
                     ),
                   ),
@@ -217,7 +221,6 @@ List<FlSpot> flspotForEarn(Timeframes data, String timeFrame) {
       return [];
   }
 }
-
 
 // List<FlSpot> flspotForRedeem(Timeframes data, String timeFrame) {
 //   switch (timeFrame) {

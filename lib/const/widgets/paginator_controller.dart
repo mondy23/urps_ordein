@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:urps_ordein/const/constant.dart';
-import 'package:urps_ordein/features/business/provider/business_provider.dart';
+import 'package:urps_ordein/features/business/controllers/business_provider.dart';
 
 class TablePaginator extends ConsumerWidget {
   final int totalRows;

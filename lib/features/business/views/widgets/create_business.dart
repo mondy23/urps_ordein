@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:urps_ordein/features/business/model/business_model.dart';
-import 'package:urps_ordein/features/business/provider/business_provider.dart';
+import 'package:urps_ordein/features/business/controllers/business_provider.dart';
+import 'package:urps_ordein/features/business/models/business_model.dart';
 
 class CreateBusinessPage extends ConsumerStatefulWidget {
   const CreateBusinessPage({super.key});

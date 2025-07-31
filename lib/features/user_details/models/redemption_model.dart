@@ -1,58 +1,50 @@
+class RedemptionResponse {
+  final int currentPage;
+  final List<RedemptionModel> records;
+  final int totalCount;
+  final int totalPages;
+
+  RedemptionResponse({
+    required this.currentPage,
+    required this.records,
+    required this.totalCount,
+    required this.totalPages,
+  });
+
+  factory RedemptionResponse.fromJson(Map<String, dynamic> json) {
+    return RedemptionResponse(
+      currentPage: json['currentPage'],
+      records: (json['records'] as List)
+          .map((e) => RedemptionModel.fromJson(e))
+          .toList(),
+      totalCount: json['totalCount'],
+      totalPages: json['totalPages'],
+    );
+  }
+}
+
 class RedemptionModel {
-  final int redemptionID;
   final String accountIdentifier;
-  final String reward;
+  final int businessId;
+  final int pointsRedeemed;
+  final int redemptionId;
   final DateTime redemptionTime;
 
   RedemptionModel({
-    required this.redemptionID,
     required this.accountIdentifier,
-    required this.reward,
+    required this.businessId,
+    required this.pointsRedeemed,
+    required this.redemptionId,
     required this.redemptionTime,
   });
 
   factory RedemptionModel.fromJson(Map<String, dynamic> json) {
     return RedemptionModel(
-      redemptionID: json['redemption_id'] as int? ?? 0,
-      accountIdentifier: json['account_identifier'] as String? ?? '',
-      reward: json['reward'] as String? ?? '',
-      redemptionTime: DateTime.tryParse(json['redemption_time'] ?? '') ?? DateTime.now(),
-    );
-  }
-
-  Map<String, dynamic> toJson() => {
-        'redemption_id': redemptionID,
-        'account_identifier': accountIdentifier,
-        'reward': reward,
-        'redemption_time': redemptionTime.toIso8601String(),
-      };
-}
-
-class RedemptionResponse {
-  final int redemptionCount;
-  final List<RedemptionModel> redemptions;
-
-  RedemptionResponse({
-    required this.redemptionCount,
-    required this.redemptions,
-  });
-
-  factory RedemptionResponse.fromJson(Map<String, dynamic>? json) {
-    if (json == null) return RedemptionResponse.empty();
-
-    final redemptionsList = json['redemptions'];
-    return RedemptionResponse(
-      redemptionCount: json['total'] as int? ?? 0,
-      redemptions: redemptionsList is List
-          ? redemptionsList.map((r) => RedemptionModel.fromJson(r)).toList()
-          : [],
-    );
-  }
-
-  factory RedemptionResponse.empty() {
-    return RedemptionResponse(
-      redemptionCount: 0,
-      redemptions: [],
+      accountIdentifier: json['account_identifier'],
+      businessId: json['business_id'],
+      pointsRedeemed: json['points_redeemed'],
+      redemptionId: json['redemption_id'],
+      redemptionTime: DateTime.parse(json['redemption_time']),
     );
   }
 }

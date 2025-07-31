@@ -2,11 +2,12 @@ import 'package:dio/dio.dart';
 
 final String token =
     'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhZG1pbl9pZCI6MSwiZXhwIjoxNzU0MDA3MDAxLCJ1c2VybmFtZSI6ImFkbWluMDAxMSJ9.s8qLb3xqU1AVyswAFFb8KTqQiN4lVdiKpiGHAvRwMhg';
-
+final baseUrl =  'http://127.0.0.1:15001';
 class DioClient {
   static final Dio _dio = Dio(
     BaseOptions(
-      baseUrl: 'http://127.0.0.1:15001',
+      // baseUrl: 'https://bakawan-reward-system.fortress-asya.com',
+      baseUrl: baseUrl,
       connectTimeout: Duration(seconds: 10),
       receiveTimeout: Duration(seconds: 10),
       headers: {
