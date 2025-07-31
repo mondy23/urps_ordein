@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
+import 'package:urps_ordein/api/client.dart';
 import 'package:urps_ordein/features/user_details/models/points_line_chart.dart';
 import 'package:urps_ordein/features/user_details/models/response_model.dart';
-import 'package:urps_ordein/features/user_details/views/widgets/points_line_chart.dart';
 
 class UserServices {
   final Dio _dio = Dio(
@@ -13,7 +13,7 @@ class UserServices {
         'Content-Type': 'application/json',
         'Accept': 'application/json',
         'Authorization':
-            'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhZG1pbl9pZCI6MSwiZXhwIjoxNzUzNjY0ODE1LCJ1c2VybmFtZSI6ImFkbWluMDAxMSJ9.tuOs0v06HqxHU_IxzoTD2INvKqDwYQ7kz333015YNlo',
+            token,
       },
     ),
   );

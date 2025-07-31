@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:urps_ordein/const/constant.dart';
 import 'package:urps_ordein/const/widgets/custom_container.dart';
+import 'package:urps_ordein/features/user_details/controllers/user_controller.dart';
 
-class InfoCard extends StatelessWidget {
+class InfoCard extends ConsumerWidget {
   const InfoCard({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final userID = ref.watch(userIDProvider);
+    final businessName = ref.watch(businessNameProvider);
     return CustomContainer(
       child: Row(
         children: [
@@ -24,8 +28,8 @@ class InfoCard extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text('Ottokonek', style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: textColor),),
-                Text('UID: 1111', style: TextStyle(fontSize: 18, fontWeight: FontWeight.normal, color: textColor),),
+                Text(businessName, style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: textColor),),
+                Text('UID: $userID', style: TextStyle(fontSize: 18, fontWeight: FontWeight.normal, color: textColor),),
               ],
             ),
           ),

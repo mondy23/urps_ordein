@@ -7,12 +7,16 @@ import 'package:urps_ordein/features/user_details/services/user_services.dart';
 final userIDProvider = StateProvider<String>((ref) => '1');
 final businessIDProvider = StateProvider<int>((ref) => 1);
 
+final businessNameProvider = StateProvider<String>((ref) => 'Ottokonek');
+
 final limitProvider = StateProvider<int>((ref) => 4);
 final offsetProvider = StateProvider<int>((ref) => 5);
 
 
 final userServiceProvider = Provider((ref) => UserServices());
 final selectedTimeframeProvider = StateProvider<String>((ref) => 'Day');
+
+final totalPointsProvider = StateProvider<int>((ref) => 0);
 
 
 final userDetailsProvider = FutureProvider<UserDetailsResponseModel?>((ref) async {

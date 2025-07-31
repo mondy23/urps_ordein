@@ -9,6 +9,7 @@ import 'package:urps_ordein/features/user_details/views/widgets/redemption.dart'
 import 'package:urps_ordein/features/user_details/views/widgets/transaction.dart';
 
 class UserDetails extends ConsumerWidget {
+
   const UserDetails({
     super.key,
   });

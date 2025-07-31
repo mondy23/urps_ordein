@@ -1,5 +1,8 @@
 import 'package:dio/dio.dart';
 
+final String token =
+    'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhZG1pbl9pZCI6MSwiZXhwIjoxNzU0MDA3MDAxLCJ1c2VybmFtZSI6ImFkbWluMDAxMSJ9.s8qLb3xqU1AVyswAFFb8KTqQiN4lVdiKpiGHAvRwMhg';
+
 class DioClient {
   static final Dio _dio = Dio(
     BaseOptions(
@@ -9,8 +12,7 @@ class DioClient {
       headers: {
         'Content-Type': 'application/json',
         'Accept': 'application/json',
-        'Authorization':
-            'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhZG1pbl9pZCI6MSwiZXhwIjoxNzUzNTg0OTI5LCJ1c2VybmFtZSI6ImFkbWluMDAxMSJ9.aAvypT3DHItjHJ7yosghG9-UHa46ZjDcxWPH-v4sqEM',
+        'Authorization': token,
       },
     ),
   );

@@ -56,7 +56,7 @@ class Redemption extends StatelessWidget {
                       ),
                    
                       Text(
-                        '+100pts',
+                        '-100pts',
                         style: TextStyle(
                           fontSize: 18,
                           fontWeight: FontWeight.bold,

@@ -16,6 +16,9 @@ class PointsLineChart extends ConsumerWidget {
     final selectedTimeframe = ref.watch(selectedTimeframeProvider);
     return lineChart.when(
       data: (data) {
+            WidgetsBinding.instance.addPostFrameCallback((_) {
+          ref.read(totalPointsProvider.notifier).state = data?.totalPoints ?? 0;
+        });
         return CustomContainer(
           child: Stack(
             children: [
