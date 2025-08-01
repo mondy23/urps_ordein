@@ -25,6 +25,7 @@ final businessListProvider = FutureProvider<List<BusinessModel>>((ref) async {
 });
 
 
+
 /// Create a new business
 final createBusinessProvider = FutureProvider.family<BusinessModel, BusinessModel>(
   (ref, newBusiness) async {

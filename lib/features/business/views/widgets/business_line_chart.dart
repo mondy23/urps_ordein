@@ -8,11 +8,9 @@ import 'package:urps_ordein/features/user_details/views/widgets/drop_down.dart';
 import 'package:urps_ordein/widgets/error_no_data.dart';
 
 class BusinessLineChart extends ConsumerWidget {
-  final String userID;
   final int businessID;
   const BusinessLineChart({
     super.key,
-    required this.userID,
     required this.businessID,
   });
 

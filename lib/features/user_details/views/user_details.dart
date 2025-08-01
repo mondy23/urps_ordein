@@ -44,8 +44,8 @@ class UserDetails extends ConsumerWidget {
               flex: 6,
               child: Row(
                 children: [
-                  Expanded(child: Transaction()),
-                  Expanded(child: Redemption()),
+                  Expanded(child: Transaction(userID: userID, businessID: businessID,)),
+                  Expanded(child: Redemption(userID: userID, businessID: businessID,)),
                 ],
               ),
             )

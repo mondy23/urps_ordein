@@ -9,8 +9,15 @@ class BusinessUserLineChart {
 
   factory BusinessUserLineChart.fromJson(Map<String, dynamic> json) {
     return BusinessUserLineChart(
-      totalUsers: json['total_users'],
-      timeframes: Timeframes.fromJson(json['timeframes']),
+      totalUsers: json['total_users'] ?? 0,
+      timeframes: Timeframes.fromJson(json['timeframes'] ?? {}),
+    );
+  }
+
+  factory BusinessUserLineChart.empty() {
+    return BusinessUserLineChart(
+      totalUsers: 0,
+      timeframes: Timeframes.empty(),
     );
   }
 }
@@ -28,9 +35,26 @@ class Timeframes {
 
   factory Timeframes.fromJson(Map<String, dynamic> json) {
     return Timeframes(
-      day: List<DayData>.from(json['day'].map((x) => DayData.fromJson(x))),
-      week: List<WeekData>.from(json['week'].map((x) => WeekData.fromJson(x))),
-      year: List<YearData>.from(json['year'].map((x) => YearData.fromJson(x))),
+      day: (json['day'] as List?)
+              ?.map((x) => DayData.fromJson(x))
+              .toList() ??
+          [],
+      week: (json['week'] as List?)
+              ?.map((x) => WeekData.fromJson(x))
+              .toList() ??
+          [],
+      year: (json['year'] as List?)
+              ?.map((x) => YearData.fromJson(x))
+              .toList() ??
+          [],
+    );
+  }
+
+  factory Timeframes.empty() {
+    return Timeframes(
+      day: List.generate(7, (i) => DayData(day: i, users: 0)),
+      week: List.generate(5, (i) => WeekData(week: i + 1, users: 0)),
+      year: List.generate(12, (i) => YearData(month: i, users: 0)),
     );
   }
 }
@@ -46,8 +70,8 @@ class DayData {
 
   factory DayData.fromJson(Map<String, dynamic> json) {
     return DayData(
-      day: json['day'],
-      users: json['users'],
+      day: json['day'] ?? 0,
+      users: json['users'] ?? 0,
     );
   }
 }
@@ -63,8 +87,8 @@ class WeekData {
 
   factory WeekData.fromJson(Map<String, dynamic> json) {
     return WeekData(
-      week: json['week'],
-      users: json['users'],
+      week: json['week'] ?? 1,
+      users: json['users'] ?? 0,
     );
   }
 }
@@ -80,8 +104,8 @@ class YearData {
 
   factory YearData.fromJson(Map<String, dynamic> json) {
     return YearData(
-      month: json['month'],
-      users: json['users'],
+      month: json['month'] ?? 0,
+      users: json['users'] ?? 0,
     );
   }
 }

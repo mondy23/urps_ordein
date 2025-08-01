@@ -6,14 +6,14 @@ class ErrorNoData extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const Center(
-  child: Column(
+      child: Column(
     mainAxisSize: MainAxisSize.min,
     children: [
       Icon(Icons.info_outline, size: 48, color: Colors.grey),
       SizedBox(height: 8),
       Text('No data available.', style: TextStyle(fontSize: 16)),
     ],
-  ),
-);
+      ),
+    );
   }
 }

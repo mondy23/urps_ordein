@@ -7,11 +7,13 @@ import 'package:urps_ordein/features/user_details/controllers/user_controller.da
 import 'package:urps_ordein/widgets/error_no_data.dart';
 
 class Redemption extends ConsumerWidget {
-  const Redemption({super.key});
+  final String userID;
+  final int businessID;
+  const Redemption({super.key, required this.userID, required this.businessID});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final redemptions = ref.watch(getRedemption((1, 5)));
+    final redemptions = ref.watch(getRedemption((1, 5, userID, businessID)));
     return redemptions.when(
       data: (data) {
         if (data == null) {

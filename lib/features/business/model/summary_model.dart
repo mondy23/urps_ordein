@@ -23,21 +23,39 @@ class BusinessSummary {
     required this.percentChangeTotal,
   });
 
-  factory BusinessSummary.fromJson(Map<String, dynamic> json) {
+  /// Creates a [BusinessSummary] with all values set to zero.
+  factory BusinessSummary.empty(int businessID) {
     return BusinessSummary(
-      businessID: json['BusinessID'],
-      thisMonthEarned: json['ThisMonthEarned'],
-      thisMonthRedeemed: json['ThisMonthRedeemed'],
-      thisMonthTotalRewards: json['ThisMonthTotalRewards'],
-      lastMonthEarned: json['LastMonthEarned'],
-      lastMonthRedeemed: json['LastMonthRedeemed'],
-      lastMonthTotalRewards: json['LastMonthTotalRewards'],
-      percentChangeEarned: json['PercentChangeEarned'],
-      percentChangeRedeemed: json['PercentChangeRedeemed'],
-      percentChangeTotal: json['PercentChangeTotal'],
+      businessID: businessID,
+      thisMonthEarned: 0,
+      thisMonthRedeemed: 0,
+      thisMonthTotalRewards: 0,
+      lastMonthEarned: 0,
+      lastMonthRedeemed: 0,
+      lastMonthTotalRewards: 0,
+      percentChangeEarned: 0,
+      percentChangeRedeemed: 0,
+      percentChangeTotal: 0,
     );
   }
 
+  /// Parses from JSON, with null-safety and fallbacks.
+  factory BusinessSummary.fromJson(Map<String, dynamic> json) {
+    return BusinessSummary(
+      businessID: json['BusinessID'] ?? 0,
+      thisMonthEarned: json['ThisMonthEarned'] ?? 0,
+      thisMonthRedeemed: json['ThisMonthRedeemed'] ?? 0,
+      thisMonthTotalRewards: json['ThisMonthTotalRewards'] ?? 0,
+      lastMonthEarned: json['LastMonthEarned'] ?? 0,
+      lastMonthRedeemed: json['LastMonthRedeemed'] ?? 0,
+      lastMonthTotalRewards: json['LastMonthTotalRewards'] ?? 0,
+      percentChangeEarned: json['PercentChangeEarned'] ?? 0,
+      percentChangeRedeemed: json['PercentChangeRedeemed'] ?? 0,
+      percentChangeTotal: json['PercentChangeTotal'] ?? 0,
+    );
+  }
+
+  /// Converts the model to a JSON map.
   Map<String, dynamic> toJson() {
     return {
       'BusinessID': businessID,

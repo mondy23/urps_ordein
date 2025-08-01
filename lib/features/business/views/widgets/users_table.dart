@@ -16,7 +16,7 @@ class UsersTable extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final usertable = ref.watch(usersProvider(1));
+    final usertable = ref.watch(usersProvider(businessID));
     return usertable.when(
       data: (data) {
         if (data == null) {
@@ -73,13 +73,7 @@ class UsersTable extends ConsumerWidget {
           ),
         );
       },
-      error: (e, _) => Center(
-        child: Text(
-          'Something went wrong.\n$e',
-          textAlign: TextAlign.center,
-          style: const TextStyle(color: Colors.red),
-        ),
-      ),
+      error: (e, _) => ErrorNoData(),
       loading: () => const Center(child: CircularProgressIndicator()),
     );
   }

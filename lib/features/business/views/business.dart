@@ -83,7 +83,7 @@ class Business extends ConsumerWidget {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Expanded(flex: 2, child: BusinessLineChart(userID: '2', businessID: 1)),
+        Expanded(flex: 2, child: BusinessLineChart(businessID: businessId)),
         const SizedBox(width: 24),
         Expanded(flex: 1, child: BusinessProfile()),
       ],

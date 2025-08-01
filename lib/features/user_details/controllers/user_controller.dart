@@ -24,14 +24,14 @@ final pointsLineChartProvider = FutureProvider.family<PointsLineChartResponse?, 
 });
 
 // Get Transactions
-final getTransactions = FutureProvider.family<TransactionResponse?, (int page, int limit)>((ref, args) async {
+final getTransactions = FutureProvider.family<TransactionResponse?, (int page, int limit, String userID, int businessID)>((ref, args) async {
   final service = ref.read(userServiceProvider);
-  return service.getTransactions(args.$1, args.$2);
+  return service.getTransactions(args.$1, args.$2, args.$3, args.$4);
 });
 
 // Get Redemptions
-final getRedemption = FutureProvider.family<RedemptionResponse?, (int page, int limit)>((ref, args) async {
+final getRedemption = FutureProvider.family<RedemptionResponse?, (int page, int limit, String userID, int businessID)>((ref, args) async {
   final service = ref.read(userServiceProvider);
-  return service.getRedemptions(args.$1, args.$2);
+  return service.getRedemptions(args.$1, args.$2, args.$3, args.$4);
 });
 

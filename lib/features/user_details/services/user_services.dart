@@ -48,11 +48,21 @@ class UserServices {
     }
   }
 
-  Future<TransactionResponse?> getTransactions(int page, int limit) async {
+  Future<TransactionResponse?> getTransactions(
+    int page,
+    int limit,
+    String userID,
+    int businessID,
+  ) async {
     try {
-            final response = await _dio.get(
+      final response = await _dio.get(
         '/api/private/v1/transactions',
-        queryParameters: {'page': page, 'limit': limit},
+        queryParameters: {
+          'page': page,
+          'limit': limit,
+          'account_identifier': userID,
+          'business_id': businessID,
+        },
       );
 
       final data = response.data as Map<String, dynamic>;
@@ -66,11 +76,21 @@ class UserServices {
     }
   }
 
-    Future<RedemptionResponse?> getRedemptions(int page, int limit) async {
+  Future<RedemptionResponse?> getRedemptions(
+    int page,
+    int limit,
+    String userID,
+    int businessID,
+  ) async {
     try {
-            final response = await _dio.get(
+      final response = await _dio.get(
         '/api/private/v1/redemptions',
-        queryParameters: {'page': page, 'limit': limit},
+        queryParameters: {
+          'page': page,
+          'limit': limit,
+          'account_identifier': userID,
+          'business_id': businessID,
+        },
       );
 
       final data = response.data as Map<String, dynamic>;
