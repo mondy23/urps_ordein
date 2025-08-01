@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:urps_ordein/const/constant.dart';
-import 'package:urps_ordein/features/business/controllers/business_provider.dart';
-import 'package:urps_ordein/features/business/models/business_model.dart';
-import 'package:urps_ordein/features/business/views/widgets/create_business.dart';
-import 'package:urps_ordein/features/business/views/widgets/paginator.dart';
+import 'package:urps_ordein/features/businesses/controllers/business_provider.dart';
+import 'package:urps_ordein/features/businesses/models/business_model.dart';
+import 'package:urps_ordein/features/businesses/views/widgets/create_business.dart';
+import 'package:urps_ordein/features/businesses/views/widgets/paginator.dart';
 
 class Businesses extends ConsumerWidget {
   const Businesses({super.key});

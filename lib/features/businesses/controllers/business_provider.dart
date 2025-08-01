@@ -1,6 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:urps_ordein/features/business/models/business_model.dart';
-import 'package:urps_ordein/features/business/services/business_controller.dart';
+import 'package:urps_ordein/features/businesses/models/business_model.dart';
+import 'package:urps_ordein/features/businesses/services/business_controller.dart';
 
 // UI State
 final pageSelectedProvider = StateProvider<int>((ref) => 1);

@@ -3,11 +3,13 @@ import 'package:urps_ordein/const/constant.dart';
 
 class CustomContainer extends StatelessWidget {
   final Widget child;
-  const CustomContainer({super.key, required this.child});
+  final height;
+  const CustomContainer({super.key, required this.child, this.height});
 
   @override
   Widget build(BuildContext context) {
     return Container(
+      height: height,
       margin: EdgeInsets.all(12),
       decoration: BoxDecoration(
         border: Border.all(color: borderColor),

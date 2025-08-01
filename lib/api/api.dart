@@ -42,6 +42,18 @@ class APIService<T> {
   }
 }
 
+Future<T> get() async {
+  final response = await _dio.get(endpoint);
+  final data = response.data;
+
+  if (data is Map<String, dynamic>) {
+    return fromJson(data);
+  } else {
+    throw Exception('Unexpected API format');
+  }
+}
+
+
 
   Future<Map<String, dynamic>> getPaginatedRaw(int page, int limit) async {
   final response = await _dio.get('$endpoint?page=$page&limit=$limit');

@@ -41,7 +41,7 @@ class InfoCard extends ConsumerWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      data!.businessName,
+                      data.businessName,
                       style: TextStyle(
                         fontSize: 24,
                         fontWeight: FontWeight.bold,

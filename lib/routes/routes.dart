@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:urps_ordein/features/business/views/businesses.dart';
+import 'package:urps_ordein/features/business/views/business.dart';
+import 'package:urps_ordein/features/businesses/views/businesses.dart';
 // import 'package:urps_ordein/features/user_details/views/specific_user.dart';
 import 'package:urps_ordein/features/dashboard/dashboard.dart';
 import 'package:urps_ordein/features/user_details/views/user_details.dart';
 import 'package:urps_ordein/layout/main_page.dart';
-import 'package:urps_ordein/features/users/users.dart';
 
 final routes = GoRouter(
   initialLocation: '/',
@@ -46,7 +46,7 @@ final routes = GoRouter(
                 }
 
                 return _buildFadeTransitionPage(
-                  Users(businessID: id),
+                  Business(businessId: id,),
                   key: state.pageKey,
                 );
               },

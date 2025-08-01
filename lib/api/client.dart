@@ -1,7 +1,7 @@
 import 'package:dio/dio.dart';
 
 final String token =
-    'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhZG1pbl9pZCI6MSwiZXhwIjoxNzU0MDA3MDAxLCJ1c2VybmFtZSI6ImFkbWluMDAxMSJ9.s8qLb3xqU1AVyswAFFb8KTqQiN4lVdiKpiGHAvRwMhg';
+    'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhZG1pbl9pZCI6MSwiZXhwIjoxNzU0MjY3MzQxLCJ1c2VybmFtZSI6ImFkbWluMDAxMSJ9.N1anH_QM8KTz9Bz7zt4p02uk3pkCIJeVCChL5Dyv6g4';
 final baseUrl =  'http://127.0.0.1:15001';
 class DioClient {
   static final Dio _dio = Dio(

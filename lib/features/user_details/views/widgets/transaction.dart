@@ -59,7 +59,7 @@ class Transaction extends ConsumerWidget {
                           Text(
                             DateFormat(
                               'MMM d, yyyy',
-                            ).format(data!.records[index].transactionTime),
+                            ).format(data.records[index].transactionTime),
                             style: const TextStyle(
                               fontSize: 18,
                               fontWeight: FontWeight.normal,
@@ -67,14 +67,14 @@ class Transaction extends ConsumerWidget {
                             ),
                           ),
 
-                          Text(
-                            data.records[index].amount.toString(),
-                            style: TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold,
-                              color: textColor,
-                            ),
-                          ),
+                          // Text(
+                          //   data.records[index].amount.toString(),
+                          //   style: TextStyle(
+                          //     fontSize: 18,
+                          //     fontWeight: FontWeight.bold,
+                          //     color: textColor,
+                          //   ),
+                          // ),
                           Text(
                             '+${data.records[index].pointsEarned}pts',
                             style: TextStyle(

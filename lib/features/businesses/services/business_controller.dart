@@ -1,7 +1,7 @@
 
 
 import 'package:urps_ordein/api/api.dart';
-import 'package:urps_ordein/features/business/models/business_model.dart';
+import 'package:urps_ordein/features/businesses/models/business_model.dart';
 
 final businessCrudService = APIService<BusinessModel>(
   endpoint: "/api/private/v1/businesses",

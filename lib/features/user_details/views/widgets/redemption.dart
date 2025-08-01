@@ -68,7 +68,7 @@ class Redemption extends ConsumerWidget {
                           ),
 
                           Text(
-                            '-${data.records[index].pointsRedeemed}ts',
+                            '-${data.records[index].pointsRedeemed}pts',
                             style: TextStyle(
                               fontSize: 18,
                               fontWeight: FontWeight.bold,

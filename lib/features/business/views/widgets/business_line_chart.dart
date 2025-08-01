@@ -2,16 +2,15 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:urps_ordein/const/constant.dart';
-import 'package:urps_ordein/const/widgets/custom_container.dart';
-import 'package:urps_ordein/features/user_details/controllers/user_controller.dart';
-import 'package:urps_ordein/features/user_details/models/points_line_chart.dart';
+import 'package:urps_ordein/features/business/controllers/users_provider.dart';
+import 'package:urps_ordein/features/business/model/business_linechart.dart';
 import 'package:urps_ordein/features/user_details/views/widgets/drop_down.dart';
 import 'package:urps_ordein/widgets/error_no_data.dart';
 
-class PointsLineChart extends ConsumerWidget {
+class BusinessLineChart extends ConsumerWidget {
   final String userID;
   final int businessID;
-  const PointsLineChart({
+  const BusinessLineChart({
     super.key,
     required this.userID,
     required this.businessID,
@@ -19,21 +18,24 @@ class PointsLineChart extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final lineChart = ref.watch(pointsLineChartProvider((businessID, userID)));
+    final lineChart = ref.watch(businessLineChartProvider((businessID)));
     final selectedTimeframe = ref.watch(selectedTimeframeProvider);
     return lineChart.when(
       data: (data) {
         if (data == null) {
           return ErrorNoData();
         }
-        WidgetsBinding.instance.addPostFrameCallback((_) {
-          ref.read(totalPointsProvider.notifier).state = data.totalPoints;
-        });
-        return CustomContainer(
+        return Container(
+          padding: const EdgeInsets.all(24),
+          decoration: BoxDecoration(
+            color: cardBackgroundColor,
+            borderRadius: BorderRadius.circular(16),
+          ),
+          height: 475,
           child: Stack(
             children: [
               Container(
-                padding: EdgeInsets.all(48),
+                // padding: EdgeInsets.all(48),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -41,7 +43,7 @@ class PointsLineChart extends ConsumerWidget {
                     Column(
                       children: [
                         Text(
-                          "Total Point's",
+                          "Total Users",
                           style: TextStyle(
                             fontSize: 18,
                             fontWeight: FontWeight.bold,
@@ -49,7 +51,7 @@ class PointsLineChart extends ConsumerWidget {
                           ),
                         ),
                         Text(
-                          formatPoints(data.totalPoints),
+                          formatPoints(data.totalUsers),
                           style: TextStyle(
                             fontSize: 32,
                             fontWeight: FontWeight.bold,
@@ -85,7 +87,7 @@ class PointsLineChart extends ConsumerWidget {
                             return touchedSpots.map((LineBarSpot spot) {
                               bool isEarned = spot.y.toInt() > 0;
                               return LineTooltipItem(
-                                '${formatPoints(spot.y.toInt())} pts',
+                                '${formatPoints(spot.y.toInt())} users',
                                 TextStyle(
                                   color: isEarned ? primaryColor : textColor,
                                   fontWeight: FontWeight.bold,
@@ -207,20 +209,21 @@ List<FlSpot> flspotForEarn(Timeframes data, String timeFrame) {
   switch (timeFrame) {
     case 'Day':
       return data.day
-          .map((e) => FlSpot(e.day.toDouble(), e.points.toDouble()))
+          .map((e) => FlSpot(e.day.toDouble(), e.users.toDouble()))
           .toList();
     case 'Week':
       return data.week
-          .map((e) => FlSpot((e.week - 1).toDouble(), e.points.toDouble()))
+          .map((e) => FlSpot((e.week - 1).toDouble(), e.users.toDouble()))
           .toList();
     case 'Year':
       return data.year
-          .map((e) => FlSpot((e.month - 1).toDouble(), e.points.toDouble()))
+          .map((e) => FlSpot((e.month - 1).toDouble(), e.users.toDouble()))
           .toList();
     default:
       return [];
   }
 }
+
 
 // List<FlSpot> flspotForRedeem(Timeframes data, String timeFrame) {
 //   switch (timeFrame) {
